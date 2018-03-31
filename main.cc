@@ -1,43 +1,11 @@
-#include <thread>
-#include <chrono>
-#include <random>
+#include "probability.hh"
 #include <iostream>
 
 using namespace std;
 
-static bool debugMode; // Bool flag for debug prints
-
-bool probability(unsigned const n) {
-    // Generates true or false in specified probability 1/n where n is given input.
-    // Currently uses mersenne twister with current time as seed for randomness.
-
-    std::mt19937 gen(unsigned(time(0))); // Init generator here
-
-    std::uniform_int_distribution<unsigned> timerange(1001, 1101); // Range secured for about 1 sec
-    std::uniform_int_distribution<unsigned> number(1, n); // Range for vector index
-
-    // Sleep for a randomized time (1050-1500) to get new seed value for random gen
-    auto time = std::chrono::milliseconds(timerange(gen)); // Init random time in chrono milliseconds
-
-    std::this_thread::sleep_for(time); // Sleep to change seed
-
-    // Generate two random numbers in range with time delay between
-    unsigned i = number(gen); // Generate a random number from 1 to n
-
-    //std::this_thread::sleep_for(time); // Sleep again for different seed (optional)
-    unsigned x = number(gen); // Generate another number
-
-    if (debugMode) {
-        cout << "delay: " << time.count() << "ms, " << "comparison: " << i << " == " << x << endl;
-    }
-
-    // Natural integer comparison between these two values
-    return i == x;
-}
-
 int main()
 {
-    debugMode = false;
+    bool debugMode = false;
     string cmd("");
     string t("");
 
@@ -64,7 +32,7 @@ int main()
             unsigned a = 0, b = 0;
 
             for (int i = 0; i < n; ++i) {
-                if (probability(unsigned(p))) {
+                if (probability(unsigned(p), debugMode)) {
                     a += 1;
                     cout << "TRUE" << endl;
                 }
@@ -90,7 +58,7 @@ int main()
                 continue;
             }
 
-            if (probability(unsigned(p))) {
+            if (probability(unsigned(p), debugMode)) {
                 cout << "TRUE" << endl;
             }
             else {
