@@ -5,10 +5,11 @@
 
 using namespace std;
 
-static bool debugMode;
+static bool debugMode; // Bool flag for debug prints
 
 bool probability(unsigned const n) {
     // Generates true or false in specified probability 1/n where n is given input.
+    // Currently uses mersenne twister with current time as seed for randomness.
 
     std::mt19937 gen(unsigned(time(0))); // Init generator here
 
@@ -27,7 +28,7 @@ bool probability(unsigned const n) {
     unsigned x = number(gen); // Generate another number
 
     if (debugMode) {
-        cout << time.count() << " ms, " << i << " == " << x << endl;
+        cout << "delay: " << time.count() << "ms, " << "comparison: " << i << " == " << x << endl;
     }
 
     // Natural integer comparison between these two values
@@ -41,7 +42,7 @@ int main()
     string t("");
 
     while (true) {
-        cout << "q(uit), loop, prob, debug" << endl;
+        cout << "cmds: q(uit), loop, prob, debug, clear, help" << endl;
         cout << "command> ";
 
         getline(cin, cmd);
@@ -60,9 +61,23 @@ int main()
                 continue;
             }
 
+            unsigned a = 0, b = 0;
+
             for (int i = 0; i < n; ++i) {
-                cout << probability(unsigned(p)) << endl;
+                if (probability(unsigned(p))) {
+                    a += 1;
+                    cout << "TRUE" << endl;
+                }
+                else {
+                    b += 1;
+                    cout << "FALSE" << endl;
+                }
             }
+            cout << endl;
+            cout << "TRUE: " << a << endl;
+            cout << "FALSE: " << b << endl;
+
+            cout << endl;
         }
 
         else if (cmd == "prob") {
@@ -75,23 +90,54 @@ int main()
                 continue;
             }
 
-            cout << probability(unsigned(p)) << endl;
+            if (probability(unsigned(p))) {
+                cout << "TRUE" << endl;
+            }
+            else {
+                cout << "FALSE" << endl;
+            }
+
+            cout << endl;
         }
 
         else if (cmd == "debug") {
+
             debugMode = !debugMode; // Invert debug mode
+
+            cout << "Debug mode ";
             if (debugMode) {
-                cout << "Debug mode ON!\n" << endl;
+                cout << "ON";
             }
-            else {cout << "Debug mode OFF\n" << endl;}
+            else {cout << "OFF";}
+            cout << "!\n" << endl;
         }
 
         else if (cmd == "q") {
+            cout << "goodbye!\n" << endl;
             return 0;
         }
 
+        else if (cmd == "clear") {
+            for (unsigned i = 0; i < 80; ++i) {
+                cout << endl;
+            }
+        }
+
+        else if (cmd == "help") {
+
+            cout << "q: Quits the program" << endl;
+            cout << "loop: Generates n times with probability p."
+                    " Both n and p are from user input." << endl;
+            cout << "prob: Generates value from given probability p." << endl;
+            cout << "debug: Changes debug mode on or off. Default: OFF" << endl;
+            cout << "clear: Clears the screen." << endl;
+            cout << "help: Displays this help text." << endl;
+            cout << endl;
+        }
+
         else {
-            cout << "unknown" << endl;
+            cout << "unknown command" << endl;
+            cout << endl;
         }
     }
 }
