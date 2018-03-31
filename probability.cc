@@ -4,7 +4,7 @@ bool probability(unsigned const n, bool const debugMode) {
     // Generates true or false in specified probability 1/n where n is given input.
     // Currently uses mersenne twister with current time as seed for randomness.
 
-    std::mt19937 gen(unsigned(std::chrono::milliseconds(time(0)).count())); // Init generator here
+    std::mt19937 gen(unsigned(time(0))); // Init generator here
 
     std::uniform_int_distribution<unsigned> timerange(1001, 1101); // Range secured for about 1 sec
     std::uniform_int_distribution<unsigned> number(1, n); // Range for vector index
