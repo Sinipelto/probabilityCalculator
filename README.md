@@ -6,7 +6,7 @@ Function probability(unsigned const n):
   true or false with probability 1/100 (which means a probability of 0.01 (1%). Any value that is >= 0 and <= INT_MAX may be used.
   
   Function generates 2 random unsigned integers between 1 and n and compares them with each other. If they do match, then the event
-  is happens (it's true), otherwise it doesn't (it's false).
+  does happen (it's true, returns true), otherwise it doesn't (it's false, returns false).
   
 In the main function is a user interface to use this function more easily. The UI is also very easy to expand with more
 commands if necessary.
